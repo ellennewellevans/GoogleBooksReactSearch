@@ -1,19 +1,37 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+import { ToastContainer } from "react-toastify";
+import { Route, Redirect, Switch } from "react-router-dom";
+import Search from "./pages/search";
+import Saved from "./pages/saved";
+import NotFound from "./pages/notFound404";
+import NavBar from "./components/Nav";
+import Footer from "./components/Footer";
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <React.Fragment>
+        <ToastContainer />
+        <section className="hero-is-fullheight">
+          <div className="head-head">
+            <NavBar />
+          </div>
+          <div className="head-body">
+            <Switch>
+              <Route path="/search" component={Search} />
+              <Route path="/saved" component={Saved} />
+              <Route path="/not-found" component={NotFound} />
+              <Redirect from="/" exact to="/search" />
+              <Redirect to="/not-found" />
+            </Switch>
+          </div>
+          <div className="head-foot">
+            <Footer />
+          </div>
+        </section>
+      </React.Fragment>
     );
   }
 }
