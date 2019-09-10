@@ -9,7 +9,7 @@ class Search extends Component {
   state = {
     books: [],
     q: "",
-    message: "Search for books via the Google Books API"
+    message: "Simply search for books via the Google Books API"
   };
 
   handleInputChange = event => {
@@ -64,8 +64,6 @@ class Search extends Component {
         <div className="row">
           <div className="col-10 col-centered">
             <div className="d-flex flex-wrap flex-row bd-highlight mb-3 justify-content-center align-items-center">
-              <div className="order-sm-2 p-2 bd-highlight">
-              </div>
               <div className="order-sm-1 p-2 bd-highlight">
                 <h1 className="heading-title mx-sm-3 mb-2">
                   React Google Books Search
@@ -88,7 +86,7 @@ class Search extends Component {
 
             {this.state.books.length ? (
               <List>
-                {this.state.books.map(book => (
+                {this.state.books.forEach(book => (
                   <Book
                     key={book.id}
                     title={book.volumeInfo.title}

@@ -1,5 +1,5 @@
 .brand-title {
-  font-family: "Lato", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -7,7 +7,7 @@
 }
 
 .heading-title {
-  font-family: "Lato", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -15,7 +15,7 @@
 }
 
 .heading-subtitle {
-  font-family: "Lato", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.25em;
@@ -24,7 +24,7 @@
 
 p,
 .p-article {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 300;
   font-size: 0.75rem;
 }
@@ -52,7 +52,7 @@ p,
 
 .card-content {
   padding: 1.5rem;
-  background-color: #fff;
+  background-color: lightgray;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   color: #4a4a4a;
   max-width: 100%;
@@ -62,8 +62,8 @@ p,
 .save-button,
 .delete-button,
 .view-button {
-  background-color: #fff;
-  color: #845007;
+  background-color: lightgrey;
+  color: lightslategray;
   cursor: pointer;
   justify-content: center;
   padding-bottom: calc(0.375em - 1px);
