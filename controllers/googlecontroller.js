@@ -9,7 +9,7 @@ module.exports = {
       query: params
     } = req;
     axios
-      .get("https://www.googleapis.com/books/v1/volumes/" {
+      .get("https://www.googleapis.com/books/v1/volumes/", {
         params
       })
       .then(results =>
