@@ -21,7 +21,8 @@ class Search extends Component {
 
   getBooks = () => {
     API.getBooks(this.state.q)
-      .then(res =>
+      .then(
+        res =>
         this.setState({
           books: res.data,
           currentPage: 1
@@ -64,6 +65,8 @@ class Search extends Component {
         <div className="row">
           <div className="col-10 col-centered">
             <div className="d-flex flex-wrap flex-row bd-highlight mb-3 justify-content-center align-items-center">
+              <div className="order-sm-2 p-2 bd-highlight">
+              </div>
               <div className="order-sm-1 p-2 bd-highlight">
                 <h1 className="heading-title mx-sm-3 mb-2">
                   React Google Books Search
@@ -86,7 +89,7 @@ class Search extends Component {
 
             {this.state.books.length ? (
               <List>
-                {this.state.books.forEach(book => (
+                {this.state.books.map(book => (
                   <Book
                     key={book.id}
                     title={book.volumeInfo.title}
@@ -98,7 +101,7 @@ class Search extends Component {
                     Button={() => (
                       <button
                         onClick={() => this.handleBookSave(book.id)}
-                        className="btn save-button  heading-subtitle ml-2"
+                        className="btn save-button heading-subtitle ml-2"
                       >
                         Save
                       </button>
@@ -119,5 +122,4 @@ class Search extends Component {
     );
   }
 }
-
 export default Search;

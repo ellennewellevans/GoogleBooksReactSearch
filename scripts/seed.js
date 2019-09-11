@@ -78,7 +78,7 @@ async function seed() {
 
     mongoose.disconnect();
 
-    console.info("Seed: Done!");
+    console.log("Seed: Done!");
 }
 
 seed();
