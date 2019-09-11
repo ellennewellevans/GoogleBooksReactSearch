@@ -1,4 +1,4 @@
-#Google Books React Search
+# Google Books React Search
 
 ## Getting Started
 
@@ -6,7 +6,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-In order to install and run MERN-Library on your own device you will need to be able to run MongoDB, in addition to needing the following npm packages:
+In order to install and run this programterm on your own device you will need to be able to run MongoDB, in addition to needing the following npm packages:
 
 ```
 Node.js
@@ -47,9 +47,9 @@ react-scripts
 react-transition-group
 ```
 
-## Running 'MERN-Library'
+## Running
 
-To run MERN-Library locally you will need to have MongoDB running on your computer, you can then begin the server simply by path into the root folder for the application and running:
+To run this locally you will need to have MongoDB running on your computer, you can then begin the server simply by path into the root folder for the application and running:
 
 ```
 npm start
