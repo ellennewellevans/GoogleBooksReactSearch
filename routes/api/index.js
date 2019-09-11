@@ -1,17 +1,6 @@
-const path = require("path");
-const router = require("express").Router();
-const booksRoutes = require("./books");
-const googleRoutes = require("./google");
+const router = require('express').Router();
+const bookshelfRoutes = require('./bookshelf');
 
-// Books routes match /api/books
-router.use("/books", booksRoutes);
-
-// Google Routes match /api/books
-router.use("/google", googleRoutes);
-
-// For anything else, render the html page
-router.use(function(req, res) {
-  res.sendFile(path.join(__dirname, "../../client/build/index.html"));
-});
+router.use('/bookshelf', bookshelfRoutes);
 
 module.exports = router;

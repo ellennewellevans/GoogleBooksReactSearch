@@ -1,34 +1,34 @@
-import React from "react";
-import "./style.css";
+import React from 'react';
 
-function SearchForm({ q, handleInputChange, handleFormSubmit }) {
+function SearchForm(props) {
   return (
-    <form className="form-inline">
-      <div className="form-group mx-sm-3 mb-2">
-        <label htmlFor="Title" className="sr-only">
-          Search Book Title
-        </label>
-        <input
-          className="form-control heading-subtitle "
-          id="Title"
-          type="text"
-          value={q}
-          placeholder="Book Title..."
-          name="q"
-          onChange={handleInputChange}
-          size="55"
-          required
-        />
+    <div className="row">
+      <div className="col-lg-12">
+        <div className="card">
+          <div className="card-body">
+            <form>
+              <div className="form-group">
+                <label htmlFor="book-search">
+                  Search Any Book Title Below:
+                </label>
+                <input type="text"
+                       value={props.search}
+                       onChange={props.handleInputChange}
+                       className="form-control"
+                       id="book-search"
+                       placeholder="The Bell Jar"/>
+              </div>
+              <button type="submit"
+                      className="btn btn-outline-dark"
+                      onClick={props.handleFormSubmit}>
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-      <button
-        onClick={handleFormSubmit}
-        type="submit"
-        className="btn btn-lg search-button heading-subtitle"
-      >
-        Search
-      </button>
-    </form>
-  );
+    </div>
+  )
 }
 
 export default SearchForm;

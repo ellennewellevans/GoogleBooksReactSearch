@@ -1,24 +1,26 @@
-import http from "../services/httpService";
+import axios from 'axios';
+
+const DEFAULT_HPP = '15';
+
+const PATH_BASE = 'https://www.googleapis.com/books/v1';
+const PATH_SEARCH = '/volumes';
+const PARAM_SEARCH = 'q=';
+const PARAM_HPP = 'maxResults=';
 
 export default {
-  // Gets books from the Google API
-  getBooks: function (q) {
-    return http.get("https://www.googleapis.com/books/v1/volumes/", {
-      params: {
-        q: "title:" + q
-      }
-    });
+  getGoogleBooks: function (search) {
+    return axios.get(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${search}&${PARAM_HPP}${DEFAULT_HPP}`)
   },
-  // Gets all saved books
-  getSavedBooks: function () {
-    return http.get("/api//books");
-  },
-  // Deletes the saved book with the given id
-  deleteBook: function (id) {
-    return http.delete("/api//books/" + id);
-  },
-  // Saves an book to the database
+
   saveBook: function (bookData) {
-    return http.post("/api//books", bookData);
+    return axios.post('/api/bookshelf', bookData);
+  },
+
+  getBookshelf: function () {
+    return axios.get('/api/bookshelf')
+  },
+
+  deleteBook: function (id) {
+    return axios.delete(`/api/bookshelf/${id}`)
   }
 };

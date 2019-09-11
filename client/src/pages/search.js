@@ -1,125 +1,120 @@
-import React, { Component } from "react";
-import { toast } from "react-toastify";
-import Book from "../components/Book/index";
-import SearchForm from "../components/SearchForm/index";
-import { List } from "../components/List/index";
-import API from "../utils/API";
+import React, {Component} from 'react';
+import {withAlert} from 'react-alert';
+import API from '../utils/API';
+import Jumbotron from '../components/Jumbotron';
+import SearchForm from '../components/SearchForm';
+import BookCard from '../components/BookCard';
+
+// Function to format the book results as they are returned from the API.  Allows for a single component 'BookCard'
+// that can be used in both pages.
+const formatBookResults = googleApiResults => {
+  const bookArray = [];
+
+  googleApiResults.map(book => {
+
+    const formattedBook = {
+      title: book.volumeInfo.title,
+      authors: book.volumeInfo.authors
+        ? book.volumeInfo.authors
+        : ['No Author Listed.'],
+      description: book.volumeInfo.description
+        ? book.volumeInfo.description
+        : 'No Description Listed.',
+      googleBookId: book.id,
+      thumbnail: book.volumeInfo.imageLinks
+        ? book.volumeInfo.imageLinks.thumbnail
+        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/170px-No_image_available.svg.png',
+      link: book.volumeInfo.canonicalVolumeLink,
+      pageCount: book.volumeInfo.pageCount,
+      subtitle: book.volumeInfo.subtitle,
+      publishedDate: book.volumeInfo.publishedDate
+    };
+
+    bookArray.push(formattedBook);
+    return bookArray
+  });
+  return bookArray;
+};
 
 class Search extends Component {
   state = {
-    books: [],
-    q: "",
-    message: "Simply search for books via the Google Books API"
+    search: '',
+    results: [],
+    error: ''
   };
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
-  };
+  // Method for saving a particular book to the database.
+  saveBook = event => {
 
-  getBooks = () => {
-    API.getBooks(this.state.q)
-      .then(
-        res =>
-        this.setState({
-          books: res.data,
-          currentPage: 1
+    const chosenBook = this.state.results.find(book => book.googleBookId === event.target.id);
+
+    const newSave = {
+      title: chosenBook.title,
+      authors: chosenBook.authors,
+      description: chosenBook.description,
+      googleBookId: chosenBook.googleBookId,
+      thumbnail: chosenBook.thumbnail,
+      link: chosenBook.link,
+      pageCount: chosenBook.pageCount,
+      subtitle: chosenBook.subtitle,
+      publishedDate: chosenBook.publishedDate
+    };
+
+    API.saveBook(newSave)
+      .then(res => {
+        console.log(res.status, res.statusText);
+        this.props.alert.show('Book Saved!', {type: 'success'})
+      })
+      .catch(err => {
+        console.log(err);
+        this.props.alert.show('Sorry, There was an issue saving...', {
+          type: 'error',
+          timeout: 5000
         })
-      )
-      .catch(() => {
-        toast.error("Your search did not match any book results.");
-
-        this.setState({
-          books: [],
-          message: "Your search did not match any book results.",
-          currentPage: 1
-        });
-      });
+      })
   };
 
+  // Method handling the change of the input field.
+  handleInputChange = event => {
+    this.setState({search: event.target.value})
+  };
+
+  // Method handling the submission of the Search form, makes a call to retrieve the results of the search
+  // from Google Books API.
   handleFormSubmit = event => {
     event.preventDefault();
-    toast.info("Searching books... !");
-    this.getBooks();
-  };
-
-  handleBookSave = id => {
-    const book = this.state.books.find(book => book.id === id);
-
-    API.saveBook({
-      googleId: book.id,
-      title: book.volumeInfo.title,
-      subtitle: book.volumeInfo.subtitle,
-      link: book.volumeInfo.infoLink,
-      authors: book.volumeInfo.authors,
-      description: book.volumeInfo.description,
-      image: book.volumeInfo.imageLinks.thumbnail
-    }).then(() => this.getBooks());
+    // console.log(`Search for: ${this.state.search}`);
+    API.getGoogleBooks(this.state.search)
+      .then(res => {
+        const formattedArray = formatBookResults(res.data.items);
+        this.setState({results: formattedArray});
+      })
+      .catch(err => console.log(err))
   };
 
   render() {
     return (
       <div className="container">
-        <div className="row">
-          <div className="col-10 col-centered">
-            <div className="d-flex flex-wrap flex-row bd-highlight mb-3 justify-content-center align-items-center">
-              <div className="order-sm-2 p-2 bd-highlight">
-              </div>
-              <div className="order-sm-1 p-2 bd-highlight">
-                <h1 className="heading-title mx-sm-3 mb-2">
-                  React Google Books Search
-                </h1>
-                <h2 className="heading-subtitle mx-sm-3 mb-2">
-                  Search for and Save Books of Interest.
-                </h2>
-                <SearchForm
-                  handleInputChange={this.handleInputChange}
-                  handleFormSubmit={this.handleFormSubmit}
-                  q={this.state.q}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-10 col-centered card-content mb-4">
-            <h1 className="heading-title mx-sm-3 mb-2 text-center">Results</h1>
 
-            {this.state.books.length ? (
-              <List>
-                {this.state.books.map(book => (
-                  <Book
-                    key={book.id}
-                    title={book.volumeInfo.title}
-                    subtitle={book.volumeInfo.subtitle}
-                    link={book.volumeInfo.infoLink}
-                    authors={book.volumeInfo.authors.join(", ")}
-                    description={book.volumeInfo.description}
-                    image={book.volumeInfo.imageLinks.thumbnail}
-                    Button={() => (
-                      <button
-                        onClick={() => this.handleBookSave(book.id)}
-                        className="btn save-button heading-subtitle ml-2"
-                      >
-                        Save
-                      </button>
-                    )}
-                  />
-                ))}
-              </List>
-            ) : (
-              <div className="mockup-content">
-                <h2 className="heading-title text-center">
-                  {this.state.message}
-                </h2>
-              </div>
-            )}
-          </div>
-        </div>
+        <Jumbotron
+          title="Search"
+          subtitle="Using Google Books API"
+          instructions="Search for a book and view the results. You can save your book to your library to view later."
+        />
+        <SearchForm
+          handleInputChange={this.handleInputChange}
+          handleFormSubmit={this.handleFormSubmit}
+        />
+        <BookCard
+          books={this.state.results}
+          buttonAction={this.saveBook}
+          buttonType="btn btn-outline-success mt-2"
+          buttonText="Save Book"
+        />
       </div>
     );
   }
 }
-export default Search;
+
+// Exporting Component Utilizing the Alerts.
+export default withAlert(Search);

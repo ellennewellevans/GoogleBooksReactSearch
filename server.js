@@ -1,33 +1,26 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const routes = require("./routes");
+const express = require('express');
 const PORT = process.env.PORT || 3001;
 const app = express();
+const routes = require('./routes');
+const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 
-// Define middleware here
-app.use(cors());
-// Configure body parsing for AJAX requests
-app.use(express.urlencoded({ extended: true }));
+// Define Middleware Here -------------------------------------
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-// Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+// Serve Up Static Assets (usually on Heroku) -----------------
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
 }
 
-// Add routes, both API and view
+// Define API Routes Here -------------------------------------
 app.use(routes);
 
-// Connect to the Mongo DB
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/googlebooks",
-  {
-    useCreateIndex: true,
-    useNewUrlParser: true
-  }
-);
+// Connect to the MongoDB Database ----------------------------
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/googlebooks';
+mongoose.connect(MONGODB_URI, {useNewUrlParser: true});
 
-app.listen(PORT, function() {
-  console.log(`🌎 ==> API server now on port ${PORT}!`);
+app.listen(PORT, () => {
+  console.log(`API Server now on port: ${PORT}`)
 });

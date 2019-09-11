@@ -1,0 +1,18 @@
+.jumbotron {
+  background-color: lightskyblue;
+}
+
+.title {
+  font-family: Roboto;
+  color: whitesmoke;
+  text-shadow: 1px 1px black;
+}
+
+.subtitle {
+  font-family: Roboto;
+}
+
+.instructions {
+  font-family: Roboto;
+  text-shadow: 1px 1px black;
+}
