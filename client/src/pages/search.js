@@ -36,7 +36,7 @@ const formatBookResults = googleApiResults => {
   return bookArray;
 };
 
-class Search extends Component {
+class search extends Component {
   state = {
     search: '',
     results: [],
@@ -117,4 +117,4 @@ class Search extends Component {
 }
 
 // Exporting Component Utilizing the Alerts.
-export default withAlert(Search);
+export default withAlert(search);
