@@ -67,7 +67,7 @@ class Search extends Component {
       })
       .catch(err => {
         console.log(err);
-        this.props.alert.show('Sorry, There was an issue saving...', {
+        this.props.alert.show('Sorry, There was an issue', {
           type: 'error',
           timeout: 5000
         })

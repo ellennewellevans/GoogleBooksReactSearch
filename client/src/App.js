@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Nav from './components/Nav';
-import Search from './pages/Search';
+import Search from './pages/Search.js';
 import Bookshelf from './pages/Bookshelf';
 import NoMatch from './pages/NoMatch'
 
